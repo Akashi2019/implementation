@@ -1,0 +1,20 @@
+{
+  "name": "implementation",
+  "version": "1.0.0",
+  "description": "手写前端类库",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akashi2019/implementation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Akashi2019/implementation/issues"
+  },
+  "homepage": "https://github.com/Akashi2019/implementation#readme"
+}
