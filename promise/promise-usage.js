@@ -5,7 +5,9 @@ let promise = new Promise((resolve, reject) => {
 
 promise.then(
   (value) => {
-    console.log(value);
+    setTimeout(() => {
+      console.log(value);
+    }, 2000);    
   },
   (reason) => {
     console.log(reason);

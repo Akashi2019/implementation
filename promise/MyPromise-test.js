@@ -1,4 +1,4 @@
-const MyPromise = require('./MyPromise')
+const MyPromise = require('./MyPromise');
 
 let promise = new MyPromise((resolve, reject) => {
   resolve('success!');
@@ -7,7 +7,9 @@ let promise = new MyPromise((resolve, reject) => {
 
 promise.then(
   (value) => {
-    console.log(value);
+    setTimeout(() => {
+      console.log(value);
+    }, 2000);
   },
   (reason) => {
     console.log(reason);
