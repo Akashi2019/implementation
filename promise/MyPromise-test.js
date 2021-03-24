@@ -93,3 +93,6 @@ function p2(){
 MyPromise.all(['a', 'b', p1(), p2(), 'c']).then(function(result){
   console.log('result: ', result);
 })
+
+MyPromise.resolve(100).then(value => console.log(value));
+MyPromise.resolve(p1()).then(value => console.log(value));
