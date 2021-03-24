@@ -123,6 +123,10 @@ class MyPromise {
     );
   }
 
+  catch(failCallback) {
+    this.then(undefined, failCallback);
+  }
+
   static resolve(value) {
     if (value instanceof MyPromise) return value;
     return new MyPromise((resolve, reject) => {

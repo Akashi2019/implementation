@@ -86,7 +86,8 @@ function p1() {
 
 function p2() {
   return new MyPromise(function (resolve, reject) {
-    resolve('p2');
+    // resolve('p2');
+    reject('error');
   });
 }
 
@@ -97,9 +98,13 @@ function p2() {
 // MyPromise.resolve(100).then(value => console.log(value));
 // MyPromise.resolve(p1()).then(value => console.log(value));
 
+// p2()
+//   .finally(() => {
+//     console.log('finally');
+//     return p1();
+//   })
+//   .then((value) => console.log(value));
+
 p2()
-  .finally(() => {
-    console.log('finally');
-    return p1();
-  })
-  .then((value) => console.log(value));
+  .then((value) => console.log(value))
+  .catch((reason) => console.log(reason));
