@@ -8,18 +8,24 @@
   </head>
   <body>
     <script>
-      var promise = new Promise(function(resolve, reject){
-        resolve(100)
+      var promise = new Promise(function (resolve, reject) {
+        resolve(100);
       });
 
-      var p1 = promise.then(function(value){
-        console.log(value);
-        return p1
-      })
+      // var p1 = promise.then(function(value){
+      //   console.log(value);
+      //   return p1
+      // })
 
-      p1.then(function(){}, function(reason){
-        console.log(reason.message);
-      })
+      // p1.then(function(){}, function(reason){
+      //   console.log(reason.message);
+      // })
+      promise
+        .then()
+        .then()
+        .then((value) => {
+          console.log(value);
+        });
     </script>
   </body>
 </html>

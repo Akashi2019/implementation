@@ -3,7 +3,11 @@ const FULFILLED = 'fulfilled';
 const REJECTED = 'rejected';
 class MyPromise {
   constructor(executor) {
-    executor(this.resolve, this.reject);
+    try {
+      executor(this.resolve, this.reject);
+    } catch (error) {
+      this.reject(error);
+    }
   }
   status = PENDING;
   value = undefined;
@@ -25,21 +29,56 @@ class MyPromise {
     this.reason = reason;
     //this.failCallback && this.failCallback(this.reason);
     while (this.failCallback.length) {
-      this.failCallback.shift()(this.reason);
+      this.failCallback.shift()();
     }
   };
   then(successCallback, failCallback) {
+    successCallback = successCallback ? successCallback : (value) => value;
+    failCallback = failCallback
+      ? failCallback
+      : (reason) => {
+          throw reason;
+        };
     let promise2 = new MyPromise((resolve, reject) => {
       if (this.status === FULFILLED) {
         setTimeout(() => {
-          let x = successCallback(this.value);
-          resolvePromise(promise2, x, resolve, reject);
+          try {
+            let x = successCallback(this.value);
+            resolvePromise(promise2, x, resolve, reject);
+          } catch (error) {
+            reject(error);
+          }
         }, 0);
       } else if (this.status === REJECTED) {
-        failCallback(this.reason);
+        setTimeout(() => {
+          try {
+            let x = failCallback(this.value);
+            resolvePromise(promise2, x, resolve, reject);
+          } catch (error) {
+            reject(error);
+          }
+        }, 0);
       } else {
-        this.successCallback.push(successCallback);
-        this.failCallback.push(failCallback);
+        this.successCallback.push(() => {
+          setTimeout(() => {
+            try {
+              let x = successCallback(this.value);
+              resolvePromise(promise2, x, resolve, reject);
+            } catch (error) {
+              reject(error);
+            }
+          }, 0);
+        });
+        this.failCallback.push(() => {
+          setTimeout(() => {
+            try {
+              let x = failCallback(this.reason);
+              resolvePromise(promise2, x, resolve, reject);
+            } catch (error) {
+              reject(error);
+            }
+          }, 0);
+        });
       }
     });
 

@@ -1,7 +1,9 @@
 const MyPromise = require('./MyPromise');
 
 let promise = new MyPromise((resolve, reject) => {
-  resolve('success!');
+  setTimeout(() => {
+    resolve('success!');
+  }, 2000);
   // reject('fail!');
 });
 
@@ -25,26 +27,51 @@ let promise = new MyPromise((resolve, reject) => {
 //   }
 // );
 
-let p1 = promise.then(
-  (value) => {
-    console.log(value);
-    return p1;
-  },
-  (reason) => {
-    console.log(reason);
-  }
-)
-p1.then(
-  (value) => {
-    console.log(value);
-  },
-  (reason) => {
-    console.log(reason.message);
-  }
-);
+// let p1 = promise.then(
+//   (value) => {
+//     console.log(value);
+//     return p1;
+//   },
+//   (reason) => {
+//     console.log(reason);
+//   }
+// )
+// p1.then(
+//   (value) => {
+//     console.log(value);
+//   },
+//   (reason) => {
+//     console.log(reason.message);
+//   }
+// );
 
-function other(){
-  return new MyPromise((resolve, reject) => {
-    resolve('other');
-  })
-}
+// function other(){
+//   return new MyPromise((resolve, reject) => {
+//     resolve('other');
+//   })
+// }
+promise
+  .then(
+    (value) => {
+      console.log(value);
+      return 'aaa';
+    },
+    (reason) => {
+      console.log(reason);
+      return 10000;
+    }
+  )
+  .then((value) => {
+    console.log(value);
+  });
+// promise
+//   .then()
+//   .then()
+//   .then(
+//     (value) => {
+//       console.log(value);
+//     },
+//     (reason) => {
+//       console.log(reason);
+//     }
+//   );
