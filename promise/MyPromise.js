@@ -52,7 +52,7 @@ class MyPromise {
       } else if (this.status === REJECTED) {
         setTimeout(() => {
           try {
-            let x = failCallback(this.value);
+            let x = failCallback(this.reason);
             resolvePromise(promise2, x, resolve, reject);
           } catch (error) {
             reject(error);
@@ -83,6 +83,28 @@ class MyPromise {
     });
 
     return promise2;
+  }
+
+  static all(array){
+    let result = [];
+    let index = 0;
+    return new MyPromise((resolve, reject)=>{
+      function add(key, value){
+        result[key] = value;
+        index++;
+        if(index === array.length){
+          resolve(result);
+        }
+      }
+      for (let i = 0; i < array.length; i++) {
+        const current = array[i];
+        if(current instanceof MyPromise){
+          current.then(value => add(i, value), reason => reject(reason));
+        }else{
+          add(i, array[i]);
+        }        
+      }
+    })
   }
 }
 

@@ -8,9 +8,9 @@
   </head>
   <body>
     <script>
-      var promise = new Promise(function (resolve, reject) {
-        resolve(100);
-      });
+      // var promise = new Promise(function (resolve, reject) {
+      //   resolve(100);
+      // });
 
       // var p1 = promise.then(function(value){
       //   console.log(value);
@@ -20,12 +20,29 @@
       // p1.then(function(){}, function(reason){
       //   console.log(reason.message);
       // })
-      promise
-        .then()
-        .then()
-        .then((value) => {
-          console.log(value);
-        });
+      // promise
+      //   .then()
+      //   .then()
+      //   .then((value) => {
+      //     console.log(value);
+      //   });
+      function p1(){
+        return new Promise(function(resolve, reject){
+          setTimeout(() => {
+            resolve('p1')
+          }, 2000);
+        })
+      }
+
+      function p2(){
+        return new Promise(function(resolve, reject){
+          resolve('p2')
+        })
+      }
+
+      Promise.all(['a', 'b', p1(), p2(), 'c']).then(function(result){
+        console.log('result: ', result);
+      })
     </script>
   </body>
 </html>

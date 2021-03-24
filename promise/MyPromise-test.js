@@ -1,11 +1,12 @@
 const MyPromise = require('./MyPromise');
 
-let promise = new MyPromise((resolve, reject) => {
-  setTimeout(() => {
-    resolve('success!');
-  }, 2000);
-  // reject('fail!');
-});
+// let promise = new MyPromise((resolve, reject) => {
+  // setTimeout(() => {
+  //   resolve('success!');
+  // }, 2000);
+  // resolve('success!');
+//   reject('fail!');
+// });
 
 // promise.then(
 //   (value) => {
@@ -50,20 +51,20 @@ let promise = new MyPromise((resolve, reject) => {
 //     resolve('other');
 //   })
 // }
-promise
-  .then(
-    (value) => {
-      console.log(value);
-      return 'aaa';
-    },
-    (reason) => {
-      console.log(reason);
-      return 10000;
-    }
-  )
-  .then((value) => {
-    console.log(value);
-  });
+// promise
+//   .then(
+//     (value) => {
+//       console.log(value);
+//       return 'aaa';
+//     },
+//     (reason) => {
+//       console.log(reason);
+//       return 10000;
+//     }
+//   )
+//   .then((value) => {
+//     console.log(value);
+//   });
 // promise
 //   .then()
 //   .then()
@@ -75,3 +76,20 @@ promise
 //       console.log(reason);
 //     }
 //   );
+function p1(){
+  return new MyPromise(function(resolve, reject){
+    setTimeout(() => {
+      resolve('p1')
+    }, 2000);
+  })
+}
+
+function p2(){
+  return new MyPromise(function(resolve, reject){
+    resolve('p2')
+  })
+}
+
+MyPromise.all(['a', 'b', p1(), p2(), 'c']).then(function(result){
+  console.log('result: ', result);
+})
