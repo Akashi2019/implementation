@@ -85,33 +85,49 @@ class MyPromise {
     return promise2;
   }
 
-  static all(array){
+  static all(array) {
     let result = [];
     let index = 0;
-    return new MyPromise((resolve, reject)=>{
-      function add(key, value){
+    return new MyPromise((resolve, reject) => {
+      function add(key, value) {
         result[key] = value;
         index++;
-        if(index === array.length){
+        if (index === array.length) {
           resolve(result);
         }
       }
       for (let i = 0; i < array.length; i++) {
         const current = array[i];
-        if(current instanceof MyPromise){
-          current.then(value => add(i, value), reason => reject(reason));
-        }else{
+        if (current instanceof MyPromise) {
+          current.then(
+            (value) => add(i, value),
+            (reason) => reject(reason)
+          );
+        } else {
           add(i, array[i]);
-        }        
+        }
       }
-    })
+    });
+  }
+
+  finally(callback) {
+    return this.then(
+      (value) => {
+        return MyPromise.resolve(callback()).then(() => value);
+      },
+      (reason) => {
+        return MyPromise.resolve(callback()).then(() => {
+          throw reason;
+        });
+      }
+    );
   }
 
   static resolve(value) {
-    if(value instanceof MyPromise) return value;
+    if (value instanceof MyPromise) return value;
     return new MyPromise((resolve, reject) => {
       resolve(value);
-    })
+    });
   }
 }
 
