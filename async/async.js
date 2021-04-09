@@ -11,3 +11,19 @@ let it = read();
 it.next();
 it.next();
 it.next();
+
+
+//co
+function co(it){
+  return new Promise((resolve, reject) => {
+    function next(data){
+      let {value, done} = it.next(data);
+      if(done){
+        resolve(value);
+      }else{
+        Promise.resolve(value).then(next, reject)
+      }
+    }
+    next();
+  })
+}
